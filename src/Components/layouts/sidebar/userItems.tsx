@@ -1,8 +1,33 @@
 import React, { FC } from "react";
-import {Avatar, Box, Card} from "@mui/material";
-import {Link} from "react-router-dom";
+import {Avatar, Box, Card, ListItem, ListItemButton, ListItemIcon, ListItemText, List } from "@mui/material";
+import {Link, useHistory} from "react-router-dom";
+import { QuestionAnswer } from "@mui/icons-material";
 
 const UserItems:FC = () => {
+
+    const users = [
+        {
+            id: 0,
+            avatar: "https://w-dog.ru/wallpapers/16/18/292169328627663/avatar-nejtiri-na-vi.jpg",
+            nameUSer: "User 1",
+            isInNetwork: true,
+        },
+        {
+            id: 1,
+            avatar: "https://img2.freepng.ru/20180626/fhs/kisspng-avatar-user-computer-icons-software-developer-5b327cc98b5780.5684824215300354015708.jpg",
+            nameUSer: "User 2",
+            isInNetwork: false
+        },
+        {
+            id: 2,
+            avatar: "https://img.favpng.com/4/8/8/loan-business-search-engine-optimization-interest-rate-car-finance-png-favpng-x0aqxWfrhEMXSt8Q7i83HmBFc.jpg",
+            nameUSer: "User 3",
+            isInNetwork: true
+        }
+    ]
+
+    const history = useHistory()
+
     return (
         <div>
             <Card
@@ -13,8 +38,10 @@ const UserItems:FC = () => {
             border: 'none',
             borderRadius: 3,
         }}>
+                {users.map( user => (
+
                 <Link
-                    to='/profile'
+                    to={`/profile/${user.id}`}
                     style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -30,10 +57,12 @@ const UserItems:FC = () => {
                             height: 50,
                         }}>
                         <Avatar
-                            src='https://w-dog.ru/wallpapers/16/18/292169328627663/avatar-nejtiri-na-vi.jpg'
+                            src={user.avatar}
                             alt=''
                             sx={{ width: 46, height: 46, borderRadius: '50%' }}
                         />
+
+                        {user.isInNetwork &&
                             <Box
                                 sx={{
                                     backgroundColor: '#4FB14F',
@@ -46,11 +75,23 @@ const UserItems:FC = () => {
                                     borderRadius: '50%',
                                 }}
                             />
+                        }
                     </Box>
-                    <span style={{ fontSize: 14 }}>User Name</span>
+                    <span style={{ fontSize: 14 }}>{user.nameUSer}</span>
                 </Link>
+                ))}
 
-        </Card>
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={ () => history.push('/messages')}>
+                            <ListItemIcon>
+                                <QuestionAnswer />
+                            </ListItemIcon>
+                            <ListItemText primary="Сообщения" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </Card>
         </div>
     )
 }
